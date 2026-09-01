@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>niSab</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/amiri@5.0.8/index.css">
+<style>
+  :root{
+    --bg:#F6F4EF;
+    --surface:#FFFFFF;
+    --surface-2:#FBF9F4;
+    --ink:#1B1B1F;
+    --ink-2:#4A4A52;
+    --muted:#8A8A92;
+    --line:#E8E4DA;
+    --accent:#0F6B52;
+    --accent-2:#12805F;
+    --gold:#B08A4A;
+    --gold-soft:#F3E9D2;
+    --danger:#C04040;
+    --warn:#D98A2B;
+    --ok:#2E8B57;
+    --shadow:0 10px 30px rgba(27,27,31,.06), 0 2px 6px rgba(27,27,31,.04);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.45;overflow-x:hidden}
+  body{min-height:100vh;max-width:520px;margin:0 auto;position:relative}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,textarea,select{font-family:inherit;font-size:15px;color:var(--ink)}
+  a{color:var(--accent);text-decoration:none}
+
+  /* ===== Top bar ===== */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    background:linear-gradient(180deg,var(--bg) 80%,rgba(246,244,239,0));
+    padding:14px 18px 10px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),#0a4f3c);
+    color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;
+    box-shadow:0 6px 14px rgba(15,107,82,.25);
+  }
+  .brand-name{font-weight:700;letter-spacing:.2px}
+  .brand-name small{display:block;font-weight:500;color:var(--muted);font-size:11px;letter-spacing:.4px}
+  .top-actions{display:flex;gap:8px}
+  .icon-btn{
+    width:38px;height:38px;border-radius:12px;background:var(--surface);
+    display:grid;place-items:center;color:var(--ink-2);
+    border:1px solid var(--line);transition:.2s;
+  }
+  .icon-btn:hover{color:var(--accent)}
+  .icon-btn svg{width:18px;height:18px}
+
+  /* ===== Screens ===== */
+  .screen{display:none;padding:0 16px 110px;animation:fade .25s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .month-chip{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--surface);border:1px solid var(--line);
+    padding:8px 12px;border-radius:999px;font-size:13px;color:var(--ink-2);
+    margin:4px 0 14px;
+  }
+
+  /* ===== Cards ===== */
+  .card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:16px;margin-bottom:12px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{margin:0 0 4px;font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+  .card .big{font-size:28px;font-weight:700;letter-spacing:-.5px}
+  .card .sub{font-size:13px;color:var(--muted);margin-top:2px}
+
+  .hero{
+    background:linear-gradient(160deg,#0F6B52 0%,#0a4f3c 100%);
+    color:#fff;border:none;position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+    background:radial-gradient(circle,rgba(255,255,255,.12),transparent 60%);
+  }
+  .hero h3{color:rgba(255,255,255,.75)}
+  .hero .big{font-size:34px}
+  .hero .sub{color:rgba(255,255,255,.7)}
+  .hero .row{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+  .hero .pill{
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);
+    padding:6px 10px;border-radius:999px;font-size:12px;color:#fff;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px;
+  }
+  .stat .label{font-size:12px;color:var(--muted);font-weight:500}
+  .stat .value{font-size:20px;font-weight:700;margin-top:4px;letter-spacing:-.3px}
+  .stat .value small{font-size:13px;color:var(--muted);font-weight:500;margin-left:2px}
+
+  /* ===== Greeting ===== */
+  .greet{
+    background:var(--gold-soft);border:1px solid #E8D9B0;
+    border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;
+    font-size:14px;color:#5a4620;
+  }
+  .greet strong{color:#3d2f14}
+
+  /* ===== Buttons ===== */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 16px;border-radius:12px;font-weight:600;font-size:14px;
+    transition:.15s;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-2)}
+  .btn-ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .btn-gold{background:var(--gold);color:#fff}
+  .btn-danger{background:#fbe9e9;color:var(--danger);border-color:#f1c8c8}
+  .btn-block{width:100%}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .action{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:14px;text-align:left;
+    display:flex;flex-direction:column;gap:6px;transition:.15s;
+  }
+  .action:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .action .ic{width:34px;height:34px;border-radius:10px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center}
+  .action .ic svg{width:18px;height:18px}
+  .action .t{font-weight:600;font-size:14px}
+  .action .d{font-size:12px;color:var(--muted)}
+
+  /* ===== Section ===== */
+  .section-title{
+    display:flex;align-items:center;justify-content:space-between;
+    margin:18px 4px 10px;
+  }
+  .section-title h2{margin:0;font-size:15px;font-weight:700}
+  .section-title a{font-size:13px;color:var(--accent);font-weight:500}
+
+  /* ===== List items ===== */
+  .list-item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 14px;background:var(--surface);
+    border:1px solid var(--line);border-radius:14px;margin-bottom:8px;
+  }
+  .list-item .avatar{
+    width:40px;height:40px;border-radius:12px;background:var(--gold-soft);
+    color:var(--gold);display:grid;place-items:center;flex-shrink:0;
+  }
+  .list-item .avatar svg{width:20px;height:20px}
+  .list-item .info{flex:1;min-width:0}
+  .list-item .info .name{font-weight:600;font-size:14px}
+  .list-item .info .meta{font-size:12px;color:var(--muted);margin-top:2px}
+  .list-item .amt{font-weight:700;font-size:15px}
+  .list-item .amt.in{color:var(--ok)}
+  .list-item .amt.out{color:var(--ink)}
+
+  .empty{
+    text-align:center;padding:22px 14px;color:var(--muted);font-size:13px;
+    background:var(--surface-2);border:1px dashed var(--line);border-radius:14px;
+  }
+
+  /* ===== Tax breakdown ===== */
+  .tax-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .tax-row:last-child{border:none}
+  .tax-row .k{color:var(--ink-2)}
+  .tax-row .v{font-weight:600}
+
+  .alert{
+    display:flex;gap:10px;padding:12px;border-radius:12px;
+    background:#e9f6ef;border:1px solid #c4e6d4;color:#1e5a3e;font-size:13px;
+  }
+  .alert svg{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+
+  /* ===== Dua ===== */
+  .dua{
+    background:linear-gradient(160deg,#FBF5E4,#F3E9D2);
+    border:1px solid #E8D9B0;border-radius:var(--radius);
+    padding:18px;text-align:center;margin:14px 0;
+  }
+  .dua .ar{font-family:'Amiri',serif;font-size:22px;line-height:1.8;color:#3d2f14;direction:rtl}
+  .dua .tr{font-size:12px;color:#7a5f2e;margin-top:8px;font-style:italic}
+  .dua .ru{font-size:13px;color:#5a4620;margin-top:6px}
+
+  /* ===== Zakat ===== */
+  .zakat-meter{
+    height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:10px 0 6px;
+  }
+  .zakat-meter > div{height:100%;background:linear-gradient(90deg,var(--gold),#d4a85c);border-radius:999px;transition:.4s}
+
+  /* ===== Forms ===== */
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-bottom:6px}
+  .field input,.field textarea,.field select{
+    width:100%;padding:12px 14px;border:1px solid var(--line);
+    border-radius:12px;background:var(--surface-2);outline:none;transition:.15s;
+  }
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);background:#fff}
+
+  /* ===== Tabs ===== */
+  .tabs{
+    display:flex;gap:6px;padding:4px;background:var(--surface);
+    border:1px solid var(--line);border-radius:12px;margin-bottom:14px;
+  }
+  .tab{
+    flex:1;padding:8px;text-align:center;border-radius:8px;
+    font-size:13px;font-weight:500;color:var(--muted);transition:.15s;
+  }
+  .tab.active{background:var(--accent);color:#fff}
+
+  /* ===== Bottom nav ===== */
+  .bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;
+    background:rgba(255,255,255,.95);backdrop-filter:blur(20px);
+    border-top:1px solid var(--line);
+    display:flex;padding:8px 6px 10px;z-index:40;
+  }
+  .nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:6px;color:var(--muted);font-size:11px;font-weight:500;transition:.15s;
+  }
+  .nav-item.active{color:var(--accent)}
+  .nav-item svg{width:22px;height:22px}
+
+  /* ===== Modal / Sheet ===== */
+  .sheet-backdrop{
+    position:fixed;inset:0;background:rgba(20,20,24,.45);z-index:50;
+    display:none;align-items:flex-end;justify-content:center;
+    animation:fade .2s;
+  }
+  .sheet-backdrop.open{display:flex}
+  .sheet{
+    background:var(--bg);width:100%;max-width:520px;
+    border-radius:24px 24px 0 0;padding:14px 18px 24px;
+    max-height:92vh;overflow-y:auto;
+    animation:slideUp .3s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+  .sheet .handle{width:40px;height:4px;background:var(--line);border-radius:999px;margin:4px auto 14px}
+  .sheet h2{margin:0 0 14px;font-size:18px}
+
+  /* ===== Bank list ===== */
+  .bank-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .bank{
+    padding:12px;background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:.15s;
+  }
+  .bank:hover{border-color:var(--accent);color:var(--accent)}
+  .bank.selected{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  /* ===== Steps ===== */
+  .step{display:flex;gap:12px;margin-bottom:14px}
+  .step .n{
+    width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;
+    display:grid;place-items:center;font-weight:700;font-size:13px;flex-shrink:0;
+  }
+  .step .c{flex:1}
+  .step .c b{display:block;margin-bottom:2px}
+  .step .c span{font-size:13px;color:var(--ink-2)}
+
+  /* ===== Profile role cards ===== */
+  .role-card{
+    padding:16px;background:var(--surface);border:2px solid var(--line);
+    border-radius:16px;margin-bottom:10px;text-align:left;transition:.15s;
+  }
+  .role-card:hover{border-color:var(--accent)}
+  .role-card.selected{border-color:var(--accent);background:#f1faf6}
+  .role-card b{font-size:16px;display:block;margin-bottom:2px}
+  .role-card span{font-size:13px;color:var(--muted)}
+
+  /* ===== Status pills ===== */
+  .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600}
+  .pill.ok{background:#e9f6ef;color:var(--ok)}
+  .pill.warn{background:#fdf3e1;color:var(--warn)}
+  .pill.err{background:#fbe9e9;color:var(--danger)}
+  .pill.info{background:#e8f0fb;color:#2c5ea8}
+
+  /* ===== Admin table ===== */
+  .admin-row{
+    display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;
+    padding:12px;background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;margin-bottom:8px;font-size:13px;
+  }
+  .admin-row .u{font-weight:600}
+  .admin-row .u small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+
+  .switch{position:relative;width:40px;height:22px;background:var(--line);border-radius:999px;transition:.2s;cursor:pointer}
+  .switch::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .switch.on{background:var(--accent)}
+  .switch.on::after{left:20px}
+
+  /* ===== Onboarding ===== */
+  .onb{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    padding:30px 20px;background:linear-gradient(180deg,var(--bg),#ede8db);
+  }
+  .onb .logo-big{
+    width:72px;height:72px;border-radius:20px;
+    background:linear-gradient(135deg,var(--accent),#0a4f3c);
+    color:#fff;display:grid;place-items:center;font-weight:700;font-size:24px;
+    margin:0 auto 16px;box-shadow:0 12px 30px rgba(15,107,82,.3);
+  }
+  .onb h1{text-align:center;margin:0 0 6px;font-size:24px}
+  .onb .lead{text-align:center;color:var(--ink-2);margin:0 0 24px;font-size:14px}
+
+  /* ===== Utilities ===== */
+  .row{display:flex;align-items:center;gap:8px}
+  .between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .muted{color:var(--muted);font-size:13px}
+  .divider{height:1px;background:var(--line);margin:12px 0}
+  .note{font-size:12px;color:var(--muted);padding:10px 12px;background:var(--surface-2);border-radius:10px;border:1px dashed var(--line)}
+
+  /* ===== Camera placeholder ===== */
+  .camera{
+    aspect-ratio:3/4;border-radius:16px;background:#000;
+    position:relative;overflow:hidden;margin-bottom:14px;
+    background-image:linear-gradient(45deg,#111 25%,#1a1a1a 25%,#1a1a1a 50%,#111 50%,#111 75%,#1a1a1a 75%);
+    background-size:20px 20px;
+  }
+  .camera::before{
+    content:"";position:absolute;inset:20%;border:2px solid var(--accent);border-radius:12px;
+    box-shadow:0 0 0 9999px rgba(0,0,0,.5);
+  }
+  .camera .hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;font-size:13px}
+
+  /* ===== Settings row ===== */
+  .set-row{
+    display:flex;align-items:center;gap:12px;padding:14px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;margin-bottom:8px;
+  }
+  .set-row .ic{width:36px;height:36px;border-radius:10px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;flex-shrink:0}
+  .set-row .ic svg{width:18px;height:18px}
+  .set-row .info{flex:1}
+  .set-row .info b{display:block;font-size:14px;font-weight:600}
+  .set-row .info span{font-size:12px;color:var(--muted)}
+  .set-row .chev{color:var(--muted)}
+
+  /* ===== Toast ===== */
+  .toast{
+    position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;
+    font-size:13px;z-index:100;opacity:0;pointer-events:none;transition:.25s;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+</style>
+</head>
+<body>
+
+<!-- ============ ONBOARDING ============ -->
+<div id="onb" class="onb" style="display:none">
+  <div class="logo-big">ni</div>
+  <h1>Добро пожаловать в niSab</h1>
+  <p class="lead">Выберите, как вы будете вести учёт — это можно изменить позже в настройках.</p>
+
+  <div class="role-card" data-role="person">
+    <b>Физлицо</b>
+    <span>Личный бюджет и цели</span>
+  </div>
+  <div class="role-card" data-role="self">
+    <b>Самозанятый</b>
+    <span>Учёт доходов от заказов</span>
+  </div>
+  <div class="role-card" data-role="ip">
+    <b>ИП</b>
+    <span>Счета, налоговый резерв</span>
+  </div>
+  <div class="role-card" data-role="ooo">
+    <b>ООО</b>
+    <span>Учёт для компании</span>
+  </div>
+
+  <div style="height:16px"></div>
+  <button class="btn btn-primary btn-block" id="onbContinue">Продолжить →</button>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app" style="display:none">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">ni</div>
+      <div class="brand-name">
+        niSab
+        <small id="monthLabel">Март 2026</small>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="refreshBtn" title="Обновить">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+      </button>
+      <button class="icon-btn" id="adminBtn" title="Админ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <section class="screen active" id="screen-home">
+    <div class="month-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span id="monthChipText">Март 2026</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="card hero">
+      <h3>Своб. остаток</h3>
+      <div class="row" style="align-items:flex-end">
+        <div class="big" id="freeAmount">— ₽</div>
+        <div class="pill" style="background:rgba(255,255,255,.15);color:#fff">Цель ещё не задана</div>
+      </div>
+      <div class="sub">Задайте цель в разделе «Цели»</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="stat">
+        <div class="label">Резерв на налог</div>
+        <div class="value" id="taxReserve">0 <small>₽</small></div>
+      </div>
+      <div class="stat">
+        <div class="label">Закят</div>
+        <div class="value" id="zakatAmount">0 <small>₽</small></div>
+      </div>
+    </div>
+
+    <!-- Greeting -->
+    <div class="greet">
+      <strong>Ассаляму алейкум!</strong> Пока нет операций за этот месяц — как только запишешь первую трату, я начну считать свободный остаток и предупреждать о важном.
+    </div>
+
+    <!-- Quick actions -->
+    <div class="actions">
+      <button class="action" onclick="openSheet('reminderSheet')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></div>
+        <div class="t">Напоминания</div>
+        <div class="d">Каждый вечер в 21:00 ✓</div>
+      </button>
+      <button class="action" onclick="openSheet('newOpSheet')">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="t">Внести траты</div>
+        <div class="d">За сегодня</div>
+      </button>
+    </div>
+
+    <!-- Obligatory payments -->
+    <div class="section-title">
+      <h2>Обязательные платежи</h2>
+      <a href="#" onclick="openSheet('paySheet');return false">+ Добавить</a>
+    </div>
+    <div id="paymentsList">
+      <div class="empty">Пока нет добавленных платежей</div>
+    </div>
+
+    <!-- Tax details -->
+    <div class="section-title">
+      <h2>Резерв на налог — детально</h2>
+      <a href="#" onclick="openSheet('taxSheet');return false">Подробнее</a>
+    </div>
+    <div class="card">
+      <div class="tax-row"><span class="k">Налог (УСН 6%) от дохода за месяц</span><span class="v" id="tax1">0 ₽</span></div>
+      <div class="tax-row"><span class="k">Соц. взносы (фиксированная часть)</span><span class="v" id="tax2">0 ₽</span></div>
+      <div class="tax-row"><span class="k">На непредвиденное (подушка)</span><span class="v" id="tax3">0 ₽</span></div>
+      <div class="alert" style="margin-top:10px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <div><b>Кассовый разрыв:</b> разрыва не предвидится. Поступлений хватает на все платежи ближайшие 30 дней.</div>
+      </div>
+    </div>
+
+    <!-- Last operations -->
+    <div class="section-title">
+      <h2>Последние операции</h2>
+      <a href="#" onclick="go('ops');return false">Все →</a>
+    </div>
+    <div id="lastOps">
+      <div class="empty">Пока нет операций — напиши боту, например «потратил 500 на такси».</div>
+    </div>
+
+    <!-- Goal -->
+    <div class="section-title">
+      <h2>Цель на месяц <span style="color:var(--muted);font-weight:500">✎</span></h2>
+    </div>
+    <div class="card">
+      <div class="between">
+        <div>
+          <div class="muted" style="font-size:12px">Доход</div>
+          <div style="font-weight:700;font-size:18px">Цель не задана</div>
+        </div>
+        <button class="btn btn-ghost" onclick="openSheet('goalSheet')">Задать</button>
+      </div>
+      <div class="divider"></div>
+      <div class="between">
+        <div>
+          <div class="muted" style="font-size:12px">Уже накоплено</div>
+          <div style="font-weight:700;font-size:18px">0 ₽</div>
+        </div>
+        <div class="muted" style="font-size:12px">из — ₽</div>
+      </div>
+    </div>
+
+    <!-- Dua -->
+    <div class="dua">
+      <div class="ar">اللَّهُمَّ بَارِكْ لِي فِيمَا رَزَقْتَنِي</div>
+      <div class="tr">Аллахумма барик ли фима разактани</div>
+      <div class="ru">О Аллах, благослови меня в том, чем Ты меня наделил.</div>
+    </div>
+
+    <!-- Zakat -->
+    <div class="section-title"><h2>Закят</h2><span class="muted">Ставка 2.5%</span></div>
+    <div class="card">
+      <div class="field">
+        <label>Накопления, с которых считать</label>
+        <input type="text" id="zakatBase" placeholder="Укажи накопления, чтобы посчитать закят" value="0">
+      </div>
+      <div class="between" style="margin-bottom:8px">
+        <span class="muted">К выплате</span>
+        <b id="zakatDue" style="font-size:18px">0 ₽</b>
+      </div>
+      <div class="zakat-meter"><div id="zakatBar" style="width:0%"></div></div>
+      <button class="btn btn-gold btn-block" onclick="saveZakat()">Сохранить</button>
+    </div>
+
+    <!-- Debts -->
+    <div class="section-title">
+      <h2>Долги</h2>
+      <a href="#" onclick="openSheet('debtSheet');return false">+ Добавить</a>
+    </div>
+    <div id="debtsList">
+      <div class="empty">Долгов пока нет</div>
+    </div>
+
+    <!-- Dua 2 -->
+    <div class="dua">
+      <div class="ar">اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ</div>
+      <div class="tr">Аллахумма-кфини би халялика ан харамик, ва агнини би фадлика амман сивак</div>
+      <div class="ru">О Аллах, избавь меня дозволенным от запретного и обогати меня Своей милостью.</div>
+    </div>
+  </section>
+
+  <!-- ============ OPERATIONS ============ -->
+  <section class="screen" id="screen-ops">
+    <div class="tabs" id="opsTabs">
+      <div class="tab active" data-f="all">Все</div>
+      <div class="tab" data-f="in">Доходы</div>
+      <div class="tab" data-f="out">Расходы</div>
+      <div class="tab" data-f="opt">Не обязательные</div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="stat">
+        <div class="label">Необходимое</div>
+        <div class="value">0 <small>₽</small></div>
+      </div>
+      <div class="stat">
+        <div class="label">Необязательное</div>
+        <div class="value">0 <small>₽</small></div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-bottom:14px">
+      Суммы в разных валютах (₽/₸) пока не конвертируются в одну — операция в тенге просто показывает ₸, не входя в общие итоги.
+    </div>
+
+    <div id="opsList">
+      <div class="empty">Пока нет операций — напиши боту, например «потратил 500 на такси».</div>
+    </div>
+
+    <div class="section-title"><h2>По категориям</h2></div>
+    <div id="catList">
+      <div class="empty">Появится, как только будут операции</div>
+    </div>
+  </section>
+
+  <!-- ============ GOALS ============ -->
+  <section class="screen" id="screen-goals">
+    <div class="section-title"><h2>Цель на месяц</h2></div>
+    <div class="card">
+      <div class="field">
+        <label>Доход — цель</label>
+        <input type="number" placeholder="Например, 150000">
+      </div>
+      <div class="field">
+        <label>Для чего эта цель?</label>
+        <textarea rows="2" placeholder="Я буду мягко напоминать"></textarea>
+      </div>
+      <button class="btn btn-primary btn-block">Сохранить цель</button>
+    </div>
+
+    <div class="section-title"><h2>Долгосрочные цели</h2><a href="#">+ Новая</a></div>
+    <div class="empty">Пока нет долгосрочных целей</div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="screen" id="screen-settings">
+    <div class="section-title"><h2>Профиль</h2></div>
+    <div class="tabs" style="margin-bottom:14px">
+      <div class="tab active">Физлицо</div>
+      <div class="tab">Самозанятый</div>
+      <div class="tab">ИП</div>
+      <div class="tab">ООО</div>
+    </div>
+
+    <div class="section-title"><h2>Мои источники</h2><a href="#" onclick="openSheet('sourceSheet');return false">Добавить</a></div>
+    <div class="empty">Пока нет подключённых источников</div>
+
+    <div class="section-title"><h2>Напоминания от niSab</h2></div>
+    <div class="card">
+      <div class="between" style="padding:6px 0">
+        <div>
+          <div style="font-weight:600;font-size:14px">Вечернее напоминание вносить траты</div>
+          <div class="muted">Каждый день в 21:00</div>
+        </div>
+        <div class="switch on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="between" style="padding:6px 0">
+        <div>
+          <div style="font-weight:600;font-size:14px">Обязательные платежи</div>
+          <div class="muted">За 3 дня и в день платежа</div>
+        </div>
+        <div class="switch on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="between" style="padding:6px 0">
+        <div>
+          <div style="font-weight:600;font-size:14px">Закят и дуа-карточки</div>
+          <div class="muted">Раз в месяц + по пятницам</div>
+        </div>
+        <div class="switch on" onclick="this.classList.toggle('on')"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="between" style="padding:6px 0">
+        <div>
+          <div style="font-weight:600;font-size:14px">Долги — если давно не трогали</div>
+          <div class="muted">Раз в 2 недели</div>
+        </div>
+        <div class="switch" onclick="this.classList.toggle('on')"></div>
+      </div>
+    </div>
+
+    <div class="section-title"><h2>Аккаунт</h2></div>
+    <div class="set-row">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div>
+      <div class="info">
+        <b>Подписка</b>
+        <span>Активна до 30 апр · Telegram Stars</span>
+      </div>
+      <span class="pill ok">Активна</span>
+    </div>
+
+    <div class="set-row" onclick="openAdmin()">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1 3 5v6c0 5 4 9 9 10 5-1 9-5 9-10V5l-9-4z"/></svg></div>
+      <div class="info">
+        <b>Админ-панель</b>
+        <span>Управление пользователями</span>
+      </div>
+      <span class="chev">›</span>
+    </div>
+  </section>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-nav="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      Главная
+    </button>
+    <button class="nav-item" data-nav="ops">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
+      Операции
+    </button>
+    <button class="nav-item" data-nav="goals">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      Цели
+    </button>
+    <button class="nav-item" data-nav="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Настройки
+    </button>
+  </nav>
+</div>
+
+<!-- ============ SHEETS ============ -->
+
+<!-- New operation -->
+<div class="sheet-backdrop" id="newOpSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Новая операция</h2>
+      <button class="icon-btn" onclick="closeSheet('newOpSheet')">✕</button>
+    </div>
+    <div class="btn-row" style="margin-bottom:14px">
+      <button class="btn btn-ghost" onclick="scanCheck()" style="flex:1">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
+        Сканировать чек
+      </button>
+    </div>
+    <div class="tabs" style="margin-bottom:14px">
+      <div class="tab active" id="tabOut" onclick="setOpType('out')">Расход</div>
+      <div class="tab" id="tabIn" onclick="setOpType('in')">Доход</div>
+    </div>
+    <div class="field">
+      <label>Сумма</label>
+      <input type="number" id="opAmount" placeholder="0">
+    </div>
+    <div class="field">
+      <label>Куда / откуда</label>
+      <input type="text" id="opPlace" placeholder="Например, Пятёрочка">
+    </div>
+    <div class="field">
+      <label>Категория</label>
+      <select id="opCat">
+        <option>Еда и дом</option>
+        <option>Транспорт</option>
+        <option>Рестораны</option>
+        <option>Коммуналка</option>
+        <option>Развлечения</option>
+        <option>Подписки</option>
+        <option>Прочее</option>
+      </select>
+    </div>
+    <div class="between" style="padding:10px 0">
+      <span>Необязательный расход</span>
+      <div class="switch" id="opOptional" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeSheet('newOpSheet')">Отмена</button>
+      <button class="btn btn-primary" style="flex:2" onclick="saveOp()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scan check -->
+<div class="sheet-backdrop" id="scanSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Сканирование чека</h2>
+      <button class="icon-btn" onclick="closeSheet('scanSheet')">✕</button>
+    </div>
+    <div class="camera">
+      <div class="hint">Наведите камеру на QR-код на чеке</div>
+    </div>
+    <button class="btn btn-ghost btn-block" onclick="closeSheet('scanSheet')">Отмена</button>
+  </div>
+</div>
+
+<!-- Reminder -->
+<div class="sheet-backdrop" id="reminderSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Напоминание</h2>
+      <button class="icon-btn" onclick="closeSheet('reminderSheet')">✕</button>
+    </div>
+    <div class="field">
+      <label>Время</label>
+      <input type="time" value="21:00">
+    </div>
+    <div class="field">
+      <label>Текст</label>
+      <textarea rows="3">Не забудь внести траты за сегодня 🌙</textarea>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="closeSheet('reminderSheet');toast('Напоминание сохранено')">Поставить напоминание</button>
+  </div>
+</div>
+
+<!-- Payment -->
+<div class="sheet-backdrop" id="paySheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Обязательный платёж</h2>
+      <button class="icon-btn" onclick="closeSheet('paySheet')">✕</button>
+    </div>
+    <div class="field"><label>Название</label><input type="text" placeholder="Аренда, кредит..."></div>
+    <div class="field"><label>Сумма</label><input type="number" placeholder="0"></div>
+    <div class="field"><label>Дата платежа</label><input type="date"></div>
+    <button class="btn btn-primary btn-block" onclick="closeSheet('paySheet');toast('Платёж сохранён')">Сохранить</button>
+  </div>
+</div>
+
+<!-- Tax details -->
+<div class="sheet-backdrop" id="taxSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Резерв на налог</h2>
+      <button class="icon-btn" onclick="closeSheet('taxSheet')">✕</button>
+    </div>
+    <div class="tax-row"><span class="k">Налог (УСН 6%)</span><span class="v">0 ₽</span></div>
+    <div class="tax-row"><span class="k">Соц. взносы</span><span class="v">0 ₽</span></div>
+    <div class="tax-row"><span class="k">Подушка безопасности</span><span class="v">0 ₽</span></div>
+    <div class="divider"></div>
+    <div class="between"><span class="muted">Итого в резерв</span><b style="font-size:18px">0 ₽</b></div>
+  </div>
+</div>
+
+<!-- Goal -->
+<div class="sheet-backdrop" id="goalSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Цель на месяц</h2>
+      <button class="icon-btn" onclick="closeSheet('goalSheet')">✕</button>
+    </div>
+    <div class="field"><label>Сумма дохода</label><input type="number" placeholder="150000"></div>
+    <div class="field"><label>Для чего эта цель?</label><textarea rows="2" placeholder="Я буду мягко напоминать"></textarea></div>
+    <button class="btn btn-primary btn-block" onclick="closeSheet('goalSheet');toast('Цель сохранена')">Сохранить цель</button>
+  </div>
+</div>
+
+<!-- Debt -->
+<div class="sheet-backdrop" id="debtSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Долг</h2>
+      <button class="icon-btn" onclick="closeSheet('debtSheet')">✕</button>
+    </div>
+    <div class="tabs" style="margin-bottom:14px">
+      <div class="tab active">Я должен</div>
+      <div class="tab">Мне должны</div>
+    </div>
+    <div class="field"><label>Сумма</label><input type="number" placeholder="0"></div>
+    <div class="field"><label>Комментарий</label><input type="text" placeholder="Кому / от кого"></div>
+    <div class="field"><label>Когда взяли</label><input type="date"></div>
+    <div class="field"><label>Вернуть до</label><input type="date"></div>
+    <button class="btn btn-primary btn-block" onclick="closeSheet('debtSheet');toast('Долг добавлен')">Сохранить</button>
+  </div>
+</div>
+
+<!-- Source -->
+<div class="sheet-backdrop" id="sourceSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Подключение источника</h2>
+      <button class="icon-btn" onclick="closeSheet('sourceSheet')">✕</button>
+    </div>
+    <p class="muted" style="margin:0 0 14px">Выберите банк — мы пришлём инструкцию по подключению SMS-форвардера.</p>
+    <div class="bank-grid" id="bankGrid"></div>
+    <button class="btn btn-ghost btn-block" style="margin-top:12px" onclick="toast('Добавьте название банка в поддержку')">+ Добавить свой банк</button>
+    <div class="divider"></div>
+    <button class="btn btn-primary btn-block" onclick="closeSheet('sourceSheet');openSheet('linkSheet')">Далее →</button>
+  </div>
+</div>
+
+<!-- Personal link -->
+<div class="sheet-backdrop" id="linkSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Персональная ссылка</h2>
+      <button class="icon-btn" onclick="closeSheet('linkSheet')">✕</button>
+    </div>
+    <p class="muted" style="margin:0 0 10px">Вставьте её в настройках форвардера на телефоне — один раз, дальше всё работает само.</p>
+    <div class="field">
+      <input type="text" id="persLink" value="https://nisab.app/wh/8f2a91c" readonly style="font-family:monospace;font-size:13px">
+    </div>
+    <div class="btn-row" style="margin-bottom:16px">
+      <button class="btn btn-primary" style="flex:1" onclick="copyLink()">Копировать</button>
+      <button class="btn btn-ghost" style="flex:1" onclick="closeSheet('linkSheet');openSheet('howSheet')">Как подключить</button>
+    </div>
+    <div class="note">Ссылка вставляется не сюда, а в отдельное приложение на телефоне, которое пересылает банковские SMS.</div>
+  </div>
+</div>
+
+<!-- How to connect -->
+<div class="sheet-backdrop" id="howSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Как подключить</h2>
+      <button class="icon-btn" onclick="closeSheet('howSheet')">✕</button>
+    </div>
+    <div class="tabs" style="margin-bottom:14px">
+      <div class="tab active">SMS Forwarder</div>
+      <div class="tab">MacroDroid</div>
+      <div class="tab">Tasker</div>
+      <div class="tab">HTTP SMS</div>
+    </div>
+    <p class="muted" style="margin:0 0 14px"><b>Самый простой вариант</b> — начните с него.</p>
+    <div class="step"><div class="n">1</div><div class="c"><b>Установите SMS Forwarder</b><span>Бесплатное приложение из Google Play.</span></div></div>
+    <div class="step"><div class="n">2</div><div class="c"><b>Создайте правило пересылки</b><span>Отправитель — номер или имя вашего банка.</span></div></div>
+    <div class="step"><div class="n">3</div><div class="c"><b>Действие «Webhook / HTTP-запрос»</b><span>Вставьте ссылку, метод — POST, тело — <code>{"text":"%message%"}</code>.</span></div></div>
+    <div class="note" style="margin-bottom:14px">Что-то не завелось? Переключите приложение выше — принцип везде один и тот же.</div>
+    <div class="section-title" style="margin-top:10px"><h2>Проверка подключения</h2></div>
+    <p class="muted" style="margin:0 0 10px">Отправьте себе тестовое SMS, чтобы убедиться, что всё настроено верно.</p>
+    <button class="btn btn-primary btn-block" onclick="testConn()">Проверить подключение</button>
+    <div id="connResult" style="margin-top:12px"></div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeSheet('howSheet');openSheet('sourceSheet')">← Назад</button>
+      <button class="btn btn-primary" style="flex:1" onclick="closeSheet('howSheet');toast('Источник подключён ✓')">Далее</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin -->
+<div class="sheet-backdrop" id="adminSheet">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="between" style="margin-bottom:14px">
+      <h2 style="margin:0">Админ-панель</h2>
+      <button class="icon-btn" onclick="closeSheet('adminSheet')">✕</button>
+    </div>
+    <div class="section-title" style="margin-top:0"><h2>Доступ пользователей</h2><a href="#">+ Добавить по @username</a></div>
+    <div class="field" style="display:flex;gap:8px">
+      <input type="text" placeholder="@username" id="admUser">
+      <select id="admRole" style="max-width:140px">
+        <option>free_full</option>
+        <option>trial</option>
+      </select>
+      <button class="btn btn-primary" onclick="addUser()">Добавить</button>
+    </div>
+
+    <div id="adminList"></div>
+    <button class="btn btn-ghost btn-block" onclick="toast('Сохранено')">Сохранено ✓</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ====== Navigation ====== */
+function go(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===name));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>go(n.dataset.nav)));
+
+/* ====== Sheets ====== */
+function openSheet(id){document.getElementById(id).classList.add('open')}
+function closeSheet(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.sheet-backdrop').forEach(b=>{
+  b.addEventListener('click',e=>{if(e.target===b)b.classList.remove('open')});
+});
+
+/* ====== Toast ====== */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ====== Onboarding ====== */
+document.querySelectorAll('.role-card').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.role-card').forEach(x=>x.classList.remove('selected'));
+    c.classList.add('selected');
+  });
+});
+document.getElementById('onbContinue').addEventListener('click',()=>{
+  const sel=document.querySelector('.role-card.selected');
+  if(!sel){toast('Выберите тип профиля');return}
+  document.getElementById('onb').style.display='none';
+  document.getElementById('app').style.display='block';
+});
+
+/* ====== Zakat ====== */
+const zakatBase=document.getElementById('zakatBase');
+function calcZakat(){
+  const v=parseFloat((zakatBase.value||'0').replace(/\s/g,''))||0;
+  const due=Math.round(v*0.025);
+  document.getElementById('zakatDue').textContent=due.toLocaleString('ru-RU')+' ₽';
+  document.getElementById('zakatAmount').innerHTML=due.toLocaleString('ru-RU')+' <small>₽</small>';
+  const pct=Math.min(100,v>0?Math.round((due/Math.max(v,1))*100):0);
+  document.getElementById('zakatBar').style.width=(v>0?100:0)+'%';
+}
+zakatBase.addEventListener('input',calcZakat);
+function saveZakat(){calcZakat();toast('Закят сохранён')}
+
+/* ====== Operations ====== */
+let opType='out';
+function setOpType(t){
+  opType=t;
+  document.getElementById('tabOut').classList.toggle('active',t==='out');
+  document.getElementById('tabIn').classList.toggle('active',t==='in');
+}
+function saveOp(){
+  const amt=parseFloat(document.getElementById('opAmount').value)||0;
+  if(amt<=0){toast('Укажите сумму');return}
+  const place=document.getElementById('opPlace').value||'Операция';
+  const cat=document.getElementById('opCat').value;
+  const optional=document.getElementById('opOptional').classList.contains('on');
+  const op={type:opType,amt,place,cat,optional,date:new Date()};
+  state.ops.unshift(op);
+  renderOps();
+  closeSheet('newOpSheet');
+  document.getElementById('opAmount').value='';
+  document.getElementById('opPlace').value='';
+  toast('Операция сохранена');
+}
+function scanCheck(){closeSheet('newOpSheet');openSheet('scanSheet')}
+
+/* ====== State ====== */
+const state={
+  ops:[],
+  users:[
+    {name:'Айгуль К.',meta:'оплата до 30 апр',plan:'paid',role:'free_full',status:'blocked'},
+    {name:'Марат Т.',meta:'оплата до 12 апр',plan:'paid',role:'free_full',status:'blocked'},
+    {name:'Diana S.',meta:'истекло 2 дня назад',plan:'paid',role:'free_full',status:'blocked'},
+    {name:'Рустам Б.',meta:'истекло 9 дней назад',plan:'paid',role:'free_full',status:'blocked'},
+  ]
+};
+
+function renderOps(){
+  const last=document.getElementById('lastOps');
+  const all=document.getElementById('opsList');
+  if(state.ops.length===0){
+    last.innerHTML='<div class="empty">Пока нет операций — напиши боту, например «потратил 500 на такси».</div>';
+    all.innerHTML='<div class="empty">Пока нет операций — напиши боту, например «потратил 500 на такси».</div>';
+    return;
+  }
+  const html=state.ops.slice(0,5).map(renderOpItem).join('');
+  last.innerHTML=html;
+  all.innerHTML=state.ops.map(renderOpItem).join('');
+}
+function renderOpItem(o){
+  const sign=o.type==='in'?'+':'−';
+  const cls=o.type==='in'?'in':'out';
+  const d=o.date;
+  const dateStr=d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'});
+  return `<div class="list-item">
+    <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div>
+    <div class="info">
+      <div class="name">${o.place}</div>
+      <div class="meta">${o.cat} · ${dateStr}${o.optional?' · необязательное':''}</div>
+    </div>
+    <div class="amt ${cls}">${sign}${o.amt.toLocaleString('ru-RU')} ₽</div>
+  </div>`;
+}
+
+/* ====== Ops tabs ====== */
+document.querySelectorAll('#opsTabs .tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('#opsTabs .tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    // simple filter demo
+  });
+});
+
+/* ====== Banks ====== */
+const banks=['Сбербанк','Тинькофф','Kaspi Bank','Ozon Банк','Альфа-Банк','ВТБ','Газпромбанк','Совкомбанк','Райффайзен','Открытие','Промсвязьбанк','Россельхозбанк','Почта Банк','Хоум Кредит','МТС Банк','Точка Банк','ЮMoney','WebMoney','ВБ Банк (Wildberries)','Halyk Bank','Forte Bank','Jusan Bank','Bank CenterCredit','Freedom Bank','Евразийский банк'];
+const bg=document.getElementById('bankGrid');
+banks.forEach(b=>{
+  const btn=document.createElement('button');
+  btn.className='bank';btn.textContent=b;
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.bank').forEach(x=>x.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+  bg.appendChild(btn);
+});
+
+/* ====== Link ====== */
+function copyLink(){
+  const i=document.getElementById('persLink');
+  i.select();document.execCommand('copy');
+  toast('Ссылка скопирована');
+}
+
+/* ====== Connection test ====== */
+function testConn(){
+  const r=document.getElementById('connResult');
+  r.innerHTML='<div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><b>Сигнал получен</b> — источник работает.</div></div>';
+}
+
+/* ====== Admin ====== */
+function openAdmin(){openSheet('adminSheet');renderAdmin()}
+document.getElementById('adminBtn').addEventListener('click',openAdmin);
+
+function renderAdmin(){
+  const list=document.getElementById('adminList');
+  list.innerHTML=state.users.map((u,i)=>`
+    <div class="admin-row">
+      <div class="u">${u.name}<small>${u.meta}</small></div>
+      <span class="pill ${u.plan==='paid'?'ok':'warn'}">${u.plan}</span>
+      <span class="pill info">${u.role}</span>
+      <span class="pill err">${u.status}</span>
+    </div>
+  `).join('');
+}
+function addUser(){
+  const n=document.getElementById('admUser').value.trim();
+  if(!n){toast('Введите @username');return}
+  state.users.unshift({name:n,meta:'только что добавлен',plan:'trial',role:document.getElementById('admRole').value,status:'active'});
+  document.getElementById('admUser').value='';
+  renderAdmin();toast('Пользователь добавлен');
+}
+
+/* ====== Refresh ====== */
+document.getElementById('refreshBtn').addEventListener('click',()=>{
+  toast('🔄 Обновление...');
+  setTimeout(()=>toast('Данные актуальны'),800);
+});
+
+/* ====== Init ====== */
+calcZakat();
+renderOps();
+renderAdmin();
+
+// Update month label
+const months=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const now=new Date();
+const mLabel=months[now.getMonth()]+' '+now.getFullYear();
+document.getElementById('monthLabel').textContent=mLabel;
+document.getElementById('monthChipText').textContent=mLabel;
+</script>
+</body>
+</html>
